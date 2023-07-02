@@ -13,10 +13,6 @@ class BankAccount:
     def __str__(self):
         return f"Bank Account #{self._account_number}: Balance - {self._balance}"
     
-    @classmethod
-    def get_bank_name(cls):
-        return "Zenith Central Bank"
-    
     @staticmethod
     def is_valid_account_number(account_number):
         return len(str(account_number)) == 6
@@ -24,10 +20,6 @@ class BankAccount:
     def balance(self):
         return self._balance
     
-    def deposit(self, amount):
-        if amount < 0:
-            raise ValueError("Balance cannot be negative")
-        self._balance += amount
         
     def withdraw(self, amount):
         if amount < 0:
@@ -59,6 +51,11 @@ def account_exists(account_number, data):
             return account
     return None
 
+def deposit(amount: float):
+    if amount < 0:
+        raise ValueError("Balance cannot be negative")
+    return amount
+
 def open_account():
     print("Welcome to Zenith Central Bank!")
     account_check = input("Do you have an existing account? (yes/no): ")
@@ -80,7 +77,8 @@ def open_account():
                 
                 if option == 'deposit':
                     amount = float(input("Enter the deposit amount: "))
-                    existing_account['balance'] += amount
+                    existing_account['balance'] += deposit(amount)
+                    
                     print(f"Deposit of {amount} successful. Your new balance is: {existing_account['balance']}")
 
                 elif option == 'withdraw':
